@@ -28,6 +28,7 @@
             "arrowParens": "always",
             "semi": false,
             "endOfLine": "auto"
-          }]
+          }],
+        "@tscript-eslint/ban-ts-comment": "off"
     }
 }
