@@ -1,19 +1,23 @@
-type Element = {
-  [K: string]: Element | Array<Element> | string
+// type Element = {
+//   [K: string]: Element | Array<Element> | string
+// }
+
+// export type Leaf = string | number
+
+// export type Tree =
+//   | Array<Tree>
+//   | Readonly<{
+//       [k in string]?: Tree | Leaf
+//     }>
+
+export type Tree = {
+  [k in string]: Array<Tree> | Tree | string | number
 }
 
-export type Leaf = string | number
-
-export type Tree =
-  | Array<Tree>
-  | Readonly<{
-      [k in string]: Tree | Leaf
-    }>
-
 export function simplifyObject(
-  element: Element | Element[],
+  element: Tree | Tree[],
   repeatableKey: string,
-): Element {
+): Tree {
   const entries = Object.entries(element)
 
   return Object.fromEntries(
@@ -33,6 +37,6 @@ export function simplifyObject(
   )
 }
 
-export function isLeaf<T>(data: T | Leaf): data is Leaf {
+export function isLeaf(data: Tree[string]): data is string | number {
   return typeof data === 'string' || typeof data === 'number'
 }
