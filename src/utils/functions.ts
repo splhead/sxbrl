@@ -25,13 +25,17 @@ export function simplifyObject(
       if (typeof value === 'string' || typeof value === 'number') {
         return [key, value]
       }
-      if (key === repeatableKey && Array.isArray(value)) {
-        const [head] = value
+      if (Array.isArray(value)) {
+        if (key === repeatableKey) {
+          const [head] = value
 
-        if (!head) throw new Error(`Arquivo inválido! ${key}`)
+          if (!head) throw new Error(`Arquivo inválido! ${key}`)
 
-        return [key, [simplifyObject(head, repeatableKey)]]
+          return [key, [simplifyObject(head, repeatableKey)]]
+        }
+        return [key, value]
       }
+
       return [key, simplifyObject(value, repeatableKey)]
     }),
   )
