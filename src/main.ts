@@ -3,25 +3,24 @@ import path from 'path'
 import { XMLParser, XMLBuilder } from 'fast-xml-parser'
 import { readFilePromise, writeInstanceFile } from './file'
 import { simplifyObject } from './utils/functions'
-// import { Tree } from './utils/function2'
 
 type Data = Array<{
-  conta: '111110100'
-  ic1: '10131'
-  tipo1: 'PO'
-  ic2: '1'
-  tipo2: 'FP'
-  ic3: '1500'
-  tipo3: 'FR'
-  ic4: ''
-  tipo4: ''
-  ic5: ''
-  tipo5: ''
-  ic6: ''
-  tipo6: ''
+  conta: string
+  ic1: string
+  tipo1: string
+  ic2: string
+  tipo2: string
+  ic3: string
+  tipo3: string
+  ic4: string
+  tipo4: string
+  ic5: string
+  tipo5: string
+  ic6: string
+  tipo6: string
   valor: number
-  tipo_valor: 'beginning_balance'
-  natureza_valor: 'C'
+  tipo_valor: string
+  natureza_valor: string
 }>
 
 function castIfNecessary(value: string | number) {
@@ -35,7 +34,7 @@ function castIfNecessary(value: string | number) {
 
 const main = async () => {
   const datasource = new Sqlite3Datasource('msc.db')
-  const sql = 'SELECT * FROM msc limit 2'
+  const sql = 'SELECT * FROM msc'
 
   const data = (await datasource.getData(sql)) as Data
   console.log(data)
@@ -141,29 +140,3 @@ const main = async () => {
 }
 
 main()
-
-// type Source = Record<string, string | number>
-
-// function teste(source: Source, xbrl: Tree, inputs: string[]) {
-//   const state = new Map()
-//   for (const [key, value] of Object.entries(xbrl)) {
-//     if (isLeaf(value)) {
-//       if (key.startsWith('#text')) {
-//         const input = inputs.shift()
-//         if (!input) {
-//           throw Error('Wrong input' + input)
-//         }
-//         if (typeof input !== typeof value) {
-//           throw Error(
-//             `Typeof input ${input} is diferente from ${value} in ${key}`,
-//           )
-//         }
-//         const sourceValue = source[input]
-//         state.set(key, sourceValue)
-//       }
-//     } else {
-//       teste(source, value, inputs)
-//     }
-//   }
-//   return Object.fromEntries(state.entries())
-// }
