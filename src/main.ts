@@ -2,7 +2,7 @@ import path from 'path'
 import { XMLParser, XMLBuilder } from 'fast-xml-parser'
 
 import { readFilePromise, writeInstanceFile } from './file'
-import { simplifyObject } from './utils/functions'
+import { simplifyObject, Tree } from './utils/functions'
 import { datasourceConfig } from './config/datasource'
 import { datasourcesAvailable } from './datasources/connectors/datasourcesutils'
 import { DataModelMSC } from './datasources/connectors/datasource'
@@ -20,7 +20,7 @@ const main = async () => {
   const datasource = new datasourcesAvailable[datasourceConfig.connector]()
 
   const data = (await datasource.getData(datasourceConfig.sql)) as DataModelMSC
-  console.log(data)
+  //console.log(data)
   datasource.close()
 
   const templatePath = path.resolve(__dirname, 'template', 'default.xml')
@@ -107,7 +107,7 @@ const main = async () => {
     return result
   })
 
-  xbrlSimplified['xbrli:xbrl']['gl-cor:accountingEntries']['gl-cor:entryHeader']['gl-cor:entryDetail'] = entryDetail
+  xbrlSimplified['xbrli:xbrl'] as Tree['gl-cor:accountingEntries'] as Tree['gl-cor:entryHeader'] as Tree['gl-cor:entryDetail'] = entryDetail
 
   const builder = new XMLBuilder({
     ignoreAttributes: false,

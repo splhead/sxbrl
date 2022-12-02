@@ -41,8 +41,4 @@ export function writeInstanceFile(filename: string) {
   return writeTextFile(path.join('instances', filename))
 }
 
-const logFile = writeInstanceFile('log.txt')
-
-logFile('Hello World')
-
 export { readFilePromise, writeFilePromise }
