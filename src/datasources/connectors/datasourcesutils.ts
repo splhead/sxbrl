@@ -1,0 +1,39 @@
+import { Sqlite3Datasource } from './sqlite3datasource'
+import { MysqlDatasource } from './mysqldatasource'
+
+/*
+  Ao criar um novo conector a uma fonte de dados
+  deve ser adicionado neste arquivo sua importação
+  adicionado um identificador em datasourcesAvailables
+  e adicionado no tipo DatasourceConfig com suas
+  devidas propriedades
+*/
+
+export const datasourcesAvailable = {
+  sqlite: Sqlite3Datasource,
+  mysql: MysqlDatasource
+}
+
+export type DatasourceConfig =
+  {
+    connector: 'sqlite'
+    databaseFileName: string
+    sql: string
+  }
+  |
+  {
+    connector: 'mysql'
+    user: string
+    password: string
+    database: string
+    sql: string
+  }
+  // |
+  // {
+  //   connector: 'postgres'
+  //   user: string
+  //   password: string
+  //   schema: 'public' | string
+  //   database: string
+  //   sql: string
+  // }

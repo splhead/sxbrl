@@ -1,27 +1,11 @@
-import { Sqlite3Datasource } from './datasources/connectors/sqlite3datasource'
 import path from 'path'
 import { XMLParser, XMLBuilder } from 'fast-xml-parser'
+
 import { readFilePromise, writeInstanceFile } from './file'
 import { simplifyObject } from './utils/functions'
-
-type Data = Array<{
-  conta: string
-  ic1: string
-  tipo1: string
-  ic2: string
-  tipo2: string
-  ic3: string
-  tipo3: string
-  ic4: string
-  tipo4: string
-  ic5: string
-  tipo5: string
-  ic6: string
-  tipo6: string
-  valor: number
-  tipo_valor: string
-  natureza_valor: string
-}>
+import { datasourceConfig } from './config/datasource'
+import { datasourcesAvailable } from './datasources/connectors/datasourcesutils'
+import { DataModelMSC } from './datasources/connectors/datasource'
 
 function castIfNecessary(value: string | number) {
   try {
@@ -33,10 +17,9 @@ function castIfNecessary(value: string | number) {
 }
 
 const main = async () => {
-  const datasource = new Sqlite3Datasource('msc.db')
-  const sql = 'SELECT * FROM msc'
+  const datasource = new datasourcesAvailable[datasourceConfig.connector]()
 
-  const data = (await datasource.getData(sql)) as Data
+  const data = (await datasource.getData(datasourceConfig.sql)) as DataModelMSC
   console.log(data)
   datasource.close()
 
@@ -63,7 +46,7 @@ const main = async () => {
           continue
         }
         const index = rest.charAt(0)
-        const maybeSubId = item[`ic${index}` as keyof Data[number]]
+        const maybeSubId = item[`ic${index}` as keyof DataModelMSC[number]]
         if (maybeSubId === undefined) {
           throw Error(`Not found ${`ic${index}`}`)
         }

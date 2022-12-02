@@ -1,15 +1,17 @@
 import sqlite3, { Database } from 'sqlite3'
 import path from 'path'
-import { Datasource } from './datasource'
+import { DataModelMSC, Datasource } from './datasource'
+import { datasourceConfig } from '../../config/datasource'
 
 class Sqlite3Datasource implements Datasource {
   private database: Database | null = null
 
-  constructor(private databaseFileName: string) {}
-
-  private async connect(databaseFileName: string) {
+  private async connect() {
     return new Promise((resolve, reject) => {
-      const absolutePath = path.resolve(__dirname, '..', databaseFileName)
+      if (datasourceConfig.connector !== 'sqlite') {
+        throw new Error('Configuração do conector diferente de sqlite')
+      }
+      const absolutePath = path.resolve(__dirname, '..', datasourceConfig.databaseFileName)
       this.database = new sqlite3.Database(
         absolutePath,
         sqlite3.OPEN_READWRITE,
@@ -24,8 +26,8 @@ class Sqlite3Datasource implements Datasource {
     })
   }
 
-  async getData<T>(sql: string): Promise<T[]> {
-    await this.connect(this.databaseFileName)
+  async getData(sql: string): Promise<DataModelMSC[]> {
+    await this.connect()
 
     return new Promise((resolve, reject) => {
       this.database?.all(sql, [], (error, rows) => {

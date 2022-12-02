@@ -1,15 +1,3 @@
-// type Element = {
-//   [K: string]: Element | Array<Element> | string
-// }
-
-// export type Leaf = string | number
-
-// export type Tree =
-//   | Array<Tree>
-//   | Readonly<{
-//       [k in string]?: Tree | Leaf
-//     }>
-
 export type Tree = {
   [k in string]: Array<Tree> | Tree | string | number
 }
