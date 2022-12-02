@@ -7,6 +7,7 @@ const readFilePromise = (filePath: string): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, (err, data) => {
       if (err) reject(err)
+      console.log(`Lendo arquivo ${filePath}`)
       resolve(data)
     })
   })
@@ -38,6 +39,7 @@ export function writeTextFile(pathname: string) {
 }
 
 export function writeInstanceFile(filename: string) {
+  console.log(`Escrevendo arquivo ${filename}`)
   return writeTextFile(path.join('instances', filename))
 }
 
