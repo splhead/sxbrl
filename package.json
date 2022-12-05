@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently 'yarn watch-compile' 'yarn watch-dev'",
+    "dev": "concurrently \"yarn watch-compile\" \"yarn watch-dev\"",
     "watch-compile": "swc src -w --out-dir dist --copy-files",
     "watch-dev": "nodemon --inspect --watch 'dist/**/*' -e js ./dist/main.js",
     "build": "swc src -d dist --copy-files",
