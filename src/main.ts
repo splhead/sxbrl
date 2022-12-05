@@ -107,7 +107,7 @@ const main = async () => {
     return result
   })
 
-  xbrlSimplified['xbrli:xbrl'] as Tree['gl-cor:accountingEntries'] as Tree['gl-cor:entryHeader'] as Tree['gl-cor:entryDetail'] = entryDetail
+  xbrlSimplified['xbrli:xbrl']['gl-cor:accountingEntries']['gl-cor:entryHeader']['gl-cor:entryDetail'] = entryDetail
 
   const builder = new XMLBuilder({
     ignoreAttributes: false,
