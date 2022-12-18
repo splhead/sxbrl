@@ -107,6 +107,26 @@ const main = async () => {
     return result
   })
 
+  // function getObjectByPath(path: String, tree: Tree) {
+  //   const pathSplited = path.split('/')
+  //   const keys = Object.keys(tree)
+
+  //   let objectSearched
+  //   let foundKey = false
+
+  //   pathSplited.forEach((eachPath) => {
+  //     foundKey = keys.some((key) => key === eachPath)
+  //     if (!foundKey)  return
+  //     else {
+  //       objectSearched = tree
+  //     }
+
+  //   })
+
+
+  // }
+
+
   xbrlSimplified['xbrli:xbrl']['gl-cor:accountingEntries']['gl-cor:entryHeader']['gl-cor:entryDetail'] = entryDetail
 
   const builder = new XMLBuilder({

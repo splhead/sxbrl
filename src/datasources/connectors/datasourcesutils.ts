@@ -1,5 +1,6 @@
 import { Sqlite3Datasource } from './sqlite3datasource'
 import { MysqlDatasource } from './mysqldatasource'
+import { MongoDbDatasource } from './mongodbdatasource'
 
 /*
   Ao criar um novo conector a uma fonte de dados
@@ -11,7 +12,8 @@ import { MysqlDatasource } from './mysqldatasource'
 
 export const datasourcesAvailable = {
   sqlite: Sqlite3Datasource,
-  mysql: MysqlDatasource
+  mysql: MysqlDatasource,
+  mongodb: MongoDbDatasource
 }
 
 export type DatasourceConfig =
@@ -27,6 +29,13 @@ export type DatasourceConfig =
     password: string
     database: string
     sql: string
+  }
+  |
+  {
+    connector: 'mongodb'
+    connection_string: string
+    database: string
+    collection: string
   }
   // |
   // {
