@@ -30,7 +30,7 @@ class MongoDbDatasource implements Datasource {
 
       return rows
     } catch (error) {
-
+      console.error(`Erro ao ler dados no Mongodb ${error}`)
     }
     const data = {} as DataModelMSC
     return [data]
