@@ -23,12 +23,16 @@ const writeFilePromise = (filePath: string, data: string): Promise<void> => {
 }
 
 export function writeTextFile(pathname: string) {
+  const absolutePath = path.join(__dirname, pathname)
+  console.log(`Escrevendo arquivo ${absolutePath}`)
+  const dirPath = absolutePath.slice(0, absolutePath.length - path.basename(pathname).length)
+
   return (data: string) => {
     return new Promise<void>((resolve, reject) => {
+      if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath)
       fs.writeFile(
-        path.join(__dirname, pathname),
+        absolutePath,
         data,
-        { flag: 'w+' },
         (err) => {
           if (err) reject(err)
           resolve()
@@ -39,7 +43,6 @@ export function writeTextFile(pathname: string) {
 }
 
 export function writeInstanceFile(filename: string) {
-  console.log(`Escrevendo arquivo ${filename}`)
   return writeTextFile(path.join('instances', filename))
 }
 

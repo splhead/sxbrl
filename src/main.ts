@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs'
 import { XMLParser, XMLBuilder } from 'fast-xml-parser'
 
 import { readFilePromise, writeInstanceFile } from './file'

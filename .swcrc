@@ -7,8 +7,11 @@
       "dynamicImport": false
     },
     "target": "es2021",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "module": {
