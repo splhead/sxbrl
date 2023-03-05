@@ -1,6 +1,10 @@
 import { DataModelMSC, Datasource } from "./datasource";
 import { MongoClient } from 'mongodb'
-import { datasourceConfig } from '../../config/datasource'
+import { datasourceConfig } from '../config/datasource'
+
+/**
+ * Area destinada as implementações gerais da fonte de dados MongoDB. 
+ */
 
 class MongoDbDatasource implements Datasource {
   private client: MongoClient | null = null
@@ -13,7 +17,7 @@ class MongoDbDatasource implements Datasource {
     console.log('Conectado ao MongoDb')
   }
 
-  async getData(sql: string): Promise<DataModelMSC[]> {
+  async getData(): Promise<DataModelMSC[]> {
     try {
       if (datasourceConfig.connector !== 'mongodb') {
         throw new Error('Configuração do conector diferente de mongodb')

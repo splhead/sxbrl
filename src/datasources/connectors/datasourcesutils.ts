@@ -2,12 +2,12 @@ import { Sqlite3Datasource } from './sqlite3datasource'
 import { MysqlDatasource } from './mysqldatasource'
 import { MongoDbDatasource } from './mongodbdatasource'
 
-/*
-  Ao criar um novo conector a uma fonte de dados
-  deve ser adicionado neste arquivo sua importação
-  adicionado um identificador em datasourcesAvailables
-  e adicionado no tipo DatasourceConfig com suas
-  devidas propriedades
+/**
+*  Ao criar um novo conector a uma fonte de dados
+*  deve ser adicionado neste arquivo sua importação
+*  adicionado um identificador em datasourcesAvailables
+*  e adicionado no tipo DatasourceConfig com suas
+*  devidas propriedades.
 */
 
 export const datasourcesAvailable = {
@@ -37,12 +37,17 @@ export type DatasourceConfig =
     database: string
     collection: string
   }
-  // |
-  // {
-  //   connector: 'postgres'
-  //   user: string
-  //   password: string
-  //   schema: 'public' | string
-  //   database: string
-  //   sql: string
-  // }
+
+  /**
+   * Exemplo para uma possível implementação das configurações da classe conectora do Postgres.
+   * {
+   *  connector: 'postgres'
+   *  user: string
+   *  password: string
+   *  schema: 'public' | string
+   *  database: string
+   *  sql: string
+   * }
+   */
+  
+  

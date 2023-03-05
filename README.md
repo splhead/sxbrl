@@ -9,7 +9,7 @@
  
  2 - Crie as variáveis de ambiente necessária conforme o conector de fonte de dados que irá utilizar
 
- 3 - Use as variáveis criadas no arquivo `config/datasource.ts`
+ 3 - Use as variáveis criadas no arquivo `datasource/config/datasource.ts`
 
  4 - Edite o arquivo template em `template/default.xml` conforme sua necessidade
 

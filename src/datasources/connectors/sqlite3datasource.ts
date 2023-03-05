@@ -1,7 +1,11 @@
 import sqlite3, { Database } from 'sqlite3'
 import path from 'path'
 import { DataModelMSC, Datasource } from './datasource'
-import { datasourceConfig } from '../../config/datasource'
+import { datasourceConfig } from '../config/datasource'
+
+/**
+ * Area destinada as implementações gerais da fonte de dados SQLITE.
+ */
 
 class Sqlite3Datasource implements Datasource {
   private database: Database | null = null
@@ -26,11 +30,17 @@ class Sqlite3Datasource implements Datasource {
     })
   }
 
-  async getData(sql: string): Promise<DataModelMSC[]> {
+
+  async getData(sql?: string): Promise<DataModelMSC[]> {
     await this.connect()
 
     return new Promise((resolve, reject) => {
-      this.database?.all(sql, [], (error, rows) => {
+      let statement = sql
+      if (!sql) {
+        statement = ''
+      }
+
+      this.database?.all(statement, [], (error, rows) => {
         if (error) reject(error)
         resolve(rows)
       })
