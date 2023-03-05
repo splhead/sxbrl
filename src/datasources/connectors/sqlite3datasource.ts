@@ -35,15 +35,14 @@ class Sqlite3Datasource implements Datasource {
     await this.connect()
 
     return new Promise((resolve, reject) => {
-      let statement = sql
-      if (!sql) {
-        statement = ''
+      if (!sql) reject(new Error('SQL não definido'))
+      else {
+        this.database?.all(sql, [], (error: Error | null, rows: DataModelMSC[]) => {
+          if (error) reject(error)
+          resolve(rows)
+        })
       }
 
-      this.database?.all(statement, [], (error, rows) => {
-        if (error) reject(error)
-        resolve(rows)
-      })
     })
   }
 
