@@ -124,22 +124,22 @@ const main = async () => {
     return result
   })
 
-}
 
 
-/**
- * Monta a instancia XBRL com os dados provenientes da fonte de dados com as estruturas e definições 
- * especificadas. 
- * Gera o arquivo instance.xml na pasta instances.
- */
-xbrlSimplified['xbrli:xbrl']['gl-cor:accountingEntries']['gl-cor:entryHeader']['gl-cor:entryDetail'] = entryDetail
-const builder = new XMLBuilder({
-  ignoreAttributes: false,
-  format: true,
-  suppressEmptyNode: true,
-})
-const final = builder.build(xbrlSimplified)
-const writeFile = writeInstanceFile('instance.xml')
-await writeFile(final)
+
+  /**
+   * Monta a instancia XBRL com os dados provenientes da fonte de dados com as estruturas e definições 
+   * especificadas. 
+   * Gera o arquivo instance.xml na pasta instances.
+   */
+  xbrlSimplified['xbrli:xbrl']['gl-cor:accountingEntries']['gl-cor:entryHeader']['gl-cor:entryDetail'] = entryDetail
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    format: true,
+    suppressEmptyNode: true,
+  })
+  const final = builder.build(xbrlSimplified)
+  const writeFile = writeInstanceFile('instance.xml')
+  await writeFile(final)
 }
 main()
