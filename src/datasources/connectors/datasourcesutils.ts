@@ -25,6 +25,7 @@ export type DatasourceConfig =
   |
   {
     connector: 'mysql'
+    host: string
     user: string
     password: string
     database: string
@@ -38,16 +39,15 @@ export type DatasourceConfig =
     collection: string
   }
 
-  /**
-   * Exemplo para uma possível implementação das configurações da classe conectora do Postgres.
-   * {
-   *  connector: 'postgres'
-   *  user: string
-   *  password: string
-   *  schema: 'public' | string
-   *  database: string
-   *  sql: string
-   * }
-   */
-  
-  
+/**
+ * Exemplo para uma possível implementação das configurações da classe conectora do Postgres.
+ * {
+ *  connector: 'postgres'
+ *  user: string
+ *  password: string
+ *  schema: 'public' | string
+ *  database: string
+ *  sql: string
+ * }
+ */
+

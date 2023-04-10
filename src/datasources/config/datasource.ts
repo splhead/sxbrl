@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { DatasourceConfig } from "@/datasources/connectors/datasourcesutils";
+import { Db } from 'mongodb';
 
 /**
  * Arquivo principal de configuração das fontes de dados.
@@ -24,8 +25,10 @@ import { DatasourceConfig } from "@/datasources/connectors/datasourcesutils";
 */
 
 export const datasourceConfig: DatasourceConfig = {
-  connector: 'mongodb',
-  connection_string: process.env.CONNECTION_STRING || '',
-  database: process.env.DATABASE || '',
-  collection: process.env.COLLECTION || ''
+  connector: 'mysql',
+  host: process.env.MYSQL_HOST || '127.0.0.1',
+  database: process.env.MYSQL_DATABASE || '',
+  user: process.env.MYSQL_USER || '',
+  password: process.env.MYSQL_PASSWORD || '',
+  sql: process.env.MYSQL_SQL || ''
 }

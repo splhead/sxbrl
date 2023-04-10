@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=$3nh4F0rt3
+      - MYSQL_DATABASE=db
+    volumes:
+      - ./data:/var/lib/mysql
