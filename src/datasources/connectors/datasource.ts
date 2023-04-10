@@ -25,15 +25,14 @@ export type DataModelMSC = Array<{
 
 export interface Datasource {
   /**
- * Pode receber a consulta ao banco de dados relacional e vincula os dados a estrutura definida no DataModelMSC.
- * Caso NoSQL não recebera a instrução de consulta.
- * @param sql 
- * @returns 
- */
+   * Pode receber a consulta ao banco de dados relacional e vincula os dados a estrutura definida no DataModelMSC.
+   * Caso NoSQL não recebera a instrução de consulta.
+   * @param sql
+   * @returns
+   */
   getData(sql?: string): Promise<DataModelMSC[]>
   /**
    * Encerra a conexão com a fonte de dados. Todos as classes conectoras são obrigadas a implementar a função close.
    */
   close(): void
 }
-

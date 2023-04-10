@@ -1,3 +1,5 @@
+import { DatasourceConfig } from '@/datasources/connectors/datasourcesutils'
+
 export type Tree = {
   [k in string]: Array<Tree> | Tree | string | number
 }
@@ -31,4 +33,13 @@ export function simplifyObject(
 
 export function isLeaf(data: Tree[string]): data is string | number {
   return typeof data === 'string' || typeof data === 'number'
+}
+
+export function assertConnectorType<T extends DatasourceConfig>(
+  datasourceConfig: DatasourceConfig,
+  type: string,
+): asserts datasourceConfig is T {
+  if (datasourceConfig.connector !== type) {
+    throw new Error(`Configuração do conector diferente de ${type}`)
+  }
 }

@@ -1,47 +1,45 @@
 import mysql from 'mysql2'
-import { Datasource } from "./datasource"
+import { DataModelMSC, Datasource } from './datasource'
 import { datasourceConfig } from '../config/datasource'
-import { DatasourceConfig } from './datasourcesutils'
+import { MysqlConnector } from './datasourcesutils'
+import { assertConnectorType } from '@/utils/functions'
 
 /**
- * Area destinada as implementações gerais da fonte de dados MYSQL. 
+ * fonte de dados MYSQL.
  */
-
 class MysqlDatasource implements Datasource {
-  private connection: mysql.Connection
-  private config: DatasourceConfig
-
-  constructor() {
-    if (datasourceConfig.connector !== 'mysql') {
-      throw new Error('Configuração do conector diferente de mysql')
-    }
-    this.config = datasourceConfig
-  }
-
-
+  private connection: mysql.Connection | null = null
 
   private connect() {
-    if (datasourceConfig.connector !== 'mysql') {
-      throw new Error('Configuração do conector diferente de mysql')
-    }
+    assertConnectorType<MysqlConnector>(datasourceConfig, 'mysql')
+
     this.connection = mysql.createConnection({
       host: datasourceConfig.host,
       user: datasourceConfig.user,
       password: datasourceConfig.password,
       database: datasourceConfig.database,
     })
+    console.log('Conectado com mysql')
   }
 
-  async getData<T>(sql?: string): Promise<T[]> {
-
-    const query = sql ?? datasourceConfig.sql
-    throw new Error("Method not implemented.");
+  async getData(sql?: string): Promise<DataModelMSC[]> {
+    return new Promise((resolve, reject) => {
+      if (!sql) reject(new Error('SQL não definido'))
+      else {
+        this.connect()
+        this.connection?.query(sql, (error, rows: DataModelMSC[]) => {
+          if (error) reject(error)
+          console.log('obtendo dados do mysql')
+          resolve(rows)
+        })
+      }
+    })
   }
 
   close() {
-
+    console.log('Encerrando a conexão com mysql')
+    this.connection?.end()
   }
-
 }
 
 export { MysqlDatasource }

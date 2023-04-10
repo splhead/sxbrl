@@ -2,6 +2,8 @@ import sqlite3, { Database } from 'sqlite3'
 import path from 'path'
 import { DataModelMSC, Datasource } from './datasource'
 import { datasourceConfig } from '../config/datasource'
+import { assertConnectorType } from '@/utils/functions'
+import { SqliteConnector } from './datasourcesutils'
 
 /**
  * Area destinada as implementações gerais da fonte de dados SQLITE.
@@ -12,10 +14,12 @@ class Sqlite3Datasource implements Datasource {
 
   private async connect() {
     return new Promise((resolve, reject) => {
-      if (datasourceConfig.connector !== 'sqlite') {
-        throw new Error('Configuração do conector diferente de sqlite')
-      }
-      const absolutePath = path.resolve(__dirname, '..', datasourceConfig.databaseFileName)
+      assertConnectorType<SqliteConnector>(datasourceConfig, 'sqlite')
+      const absolutePath = path.resolve(
+        __dirname,
+        '..',
+        datasourceConfig.databaseFileName,
+      )
       this.database = new sqlite3.Database(
         absolutePath,
         sqlite3.OPEN_READWRITE,
@@ -30,19 +34,21 @@ class Sqlite3Datasource implements Datasource {
     })
   }
 
-
   async getData(sql?: string): Promise<DataModelMSC[]> {
     await this.connect()
 
     return new Promise((resolve, reject) => {
       if (!sql) reject(new Error('SQL não definido'))
       else {
-        this.database?.all(sql, [], (error: Error | null, rows: DataModelMSC[]) => {
-          if (error) reject(error)
-          resolve(rows)
-        })
+        this.database?.all(
+          sql,
+          [],
+          (error: Error | null, rows: DataModelMSC[]) => {
+            if (error) reject(error)
+            resolve(rows)
+          },
+        )
       }
-
     })
   }
 

@@ -2,15 +2,15 @@ import path from 'path'
 import { XMLParser, XMLBuilder } from 'fast-xml-parser'
 
 import { readFilePromise, writeInstanceFile } from './file'
-import { simplifyObject, Tree } from './utils/functions'
+import { simplifyObject } from './utils/functions'
 import { datasourceConfig } from './datasources/config/datasource'
 import { datasourcesAvailable } from './datasources/connectors/datasourcesutils'
 import { DataModelMSC } from './datasources/connectors/datasource'
 
 /**
  * Função destinada a conversão de valores string em number.
- * @param value 
- * @returns 
+ * @param value
+ * @returns
  */
 function castIfNecessary(value: string | number) {
   try {
@@ -23,8 +23,7 @@ function castIfNecessary(value: string | number) {
 
 const main = async () => {
   const datasource = new datasourcesAvailable[datasourceConfig.connector]()
-  const sql = datasourceConfig.connector !== 'mongodb' ? datasourceConfig.sql : undefined
-  const data = (await datasource.getData(sql)) as DataModelMSC
+  const data = (await datasource.getData(datasourceConfig.sql)) as DataModelMSC
   datasource.close()
 
   const templatePath = path.resolve(__dirname, 'template', 'default.xml')
@@ -33,21 +32,20 @@ const main = async () => {
   const parser = new XMLParser({
     ignoreAttributes: false,
     ignoreDeclaration: false,
-    alwaysCreateTextNode: true
+    alwaysCreateTextNode: true,
   })
 
   const xmlObject = parser.parse(templateFile)
 
   /**
-   * Devido a necessidade de adicionar elementos da taxonomia da Matriz de Saldos Contabeis 
+   * Devido a necessidade de adicionar elementos da taxonomia da Matriz de Saldos Contabeis
    * para o SICONFI no código, foi criada a função de simplificação do xbrl proveniente do template.
    */
   const xbrlSimplified = simplifyObject(xmlObject, 'gl-cor:entryDetail')
 
-
   /**
-   * Percorre os dados oriundos da fonte de dados e verifica se os campos opcionais da Matriz de Saldos Contabeis 
-   * estão preenchidos. 
+   * Percorre os dados oriundos da fonte de dados e verifica se os campos opcionais da Matriz de Saldos Contabeis
+   * estão preenchidos.
    */
   const entryDetail = data.map((item, index) => {
     const state: { subTypeText: string | number; subId: string | number }[] = []
@@ -72,9 +70,8 @@ const main = async () => {
       }
     }
 
-
     /**
-     * Devido as definições da biblioteca fast-xml-parser foi necessário definir diretamente no código a estrutura 
+     * Devido as definições da biblioteca fast-xml-parser foi necessário definir diretamente no código a estrutura
      * da taxonomia XBRL da Matriz de Saldos Contabeis para o SICONFI.
      * Em caso de novas definições da taxonomia, atulizações na estrutura abaixo serão necessárias.
      */
@@ -124,15 +121,14 @@ const main = async () => {
     return result
   })
 
-
-
-
   /**
-   * Monta a instancia XBRL com os dados provenientes da fonte de dados com as estruturas e definições 
-   * especificadas. 
+   * Monta a instancia XBRL com os dados provenientes da fonte de dados com as estruturas e definições
+   * especificadas.
    * Gera o arquivo instance.xml na pasta instances.
    */
-  xbrlSimplified['xbrli:xbrl']['gl-cor:accountingEntries']['gl-cor:entryHeader']['gl-cor:entryDetail'] = entryDetail
+  xbrlSimplified['xbrli:xbrl']['gl-cor:accountingEntries'][
+    'gl-cor:entryHeader'
+  ]['gl-cor:entryDetail'] = entryDetail
   const builder = new XMLBuilder({
     ignoreAttributes: false,
     format: true,
