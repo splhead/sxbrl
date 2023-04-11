@@ -25,10 +25,10 @@ export type SqliteConnector = {
 export type MysqlConnector = {
   connector: 'mysql'
   host: string
+  port?: number
   user: string
   password: string
   database: string
-  port?: number
   sql?: string
 } & BaseConnector
 
@@ -42,10 +42,10 @@ export type MongodbConnector = {
 export type PostgresConnector = {
   connector: 'postgres'
   host: string
+  port?: number
   user: string
   password: string
   database: string
-  port?: number
 } & BaseConnector
 
 export const datasourcesAvailable = {
