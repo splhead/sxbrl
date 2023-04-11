@@ -15,6 +15,7 @@ class MysqlDatasource implements Datasource {
 
     this.connection = mysql.createConnection({
       host: datasourceConfig.host,
+      port: datasourceConfig.port,
       user: datasourceConfig.user,
       password: datasourceConfig.password,
       database: datasourceConfig.database,
@@ -27,9 +28,13 @@ class MysqlDatasource implements Datasource {
       if (!sql) reject(new Error('SQL não definido'))
       else {
         this.connect()
-        this.connection?.query(sql, (error, rows: DataModelMSC[]) => {
-          if (error) reject(error)
-          console.log('obtendo dados do mysql')
+        console.log('obtendo dados do mysql')
+        this.connection?.query(sql, (error: Error, rows: DataModelMSC[]) => {
+          if (error) {
+            console.log('Erro ao obter dados no mysql')
+            reject(error)
+          }
+
           resolve(rows)
         })
       }

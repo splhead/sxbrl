@@ -1,6 +1,7 @@
 import { Sqlite3Datasource } from './sqlite3datasource'
 import { MysqlDatasource } from './mysqldatasource'
 import { MongoDbDatasource } from './mongodbdatasource'
+import { PostgresDatasource } from './postgresdatasource'
 
 /*
  *  Ao criar um novo conector a uma fonte de dados
@@ -12,7 +13,7 @@ import { MongoDbDatasource } from './mongodbdatasource'
  */
 
 type BaseConnector = {
-  connector: 'sqlite' | 'mysql' | 'mongodb'
+  connector: 'sqlite' | 'mysql' | 'mongodb' | 'postgres'
   sql?: string
 }
 
@@ -27,6 +28,8 @@ export type MysqlConnector = {
   user: string
   password: string
   database: string
+  port?: number
+  sql?: string
 } & BaseConnector
 
 export type MongodbConnector = {
@@ -36,43 +39,24 @@ export type MongodbConnector = {
   collection: string
 } & BaseConnector
 
+export type PostgresConnector = {
+  connector: 'postgres'
+  host: string
+  user: string
+  password: string
+  database: string
+  port?: number
+} & BaseConnector
+
 export const datasourcesAvailable = {
   sqlite: Sqlite3Datasource,
   mysql: MysqlDatasource,
   mongodb: MongoDbDatasource,
+  postgres: PostgresDatasource
 }
 
 export type DatasourceConfig =
   | SqliteConnector
   | MysqlConnector
   | MongodbConnector
-
-/*
- * Exemplo para uma possível implementação das configurações da classe conectora do Postgres.
- * adicionar a um nome na propriedade connector no BaseConnector
- * connector: 'sqlite' | 'mysql' | 'mongodb' | 'postgres'
- *
- * adicionar o tipo e suas propriedades
- *
- * export type PostgresConnector{
- *  connector: 'postgres'
- *  host: string
- *  user: string
- *  password: string
- *  schema: 'public' | string
- *  database: string
- * } & BaseConnector
- *
- * export const datasourcesAvailable = {
- * sqlite: Sqlite3Datasource,
- * mysql: MysqlDatasource,
- * mongodb: MongoDbDatasource,
- * postgres: PostgresDatasource
- * }
- *
- * export type DatasourceConfig =
- * | SqliteConnector
- * | MysqlConnector
- * | MongodbConnector
- * | PostgresConnector
- */
+  | PostgresConnector

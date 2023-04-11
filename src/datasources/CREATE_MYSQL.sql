@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS dados.msc (
+CREATE TABLE IF NOT EXISTS msc (
 	conta varchar(15) NOT NULL,
 	ic1 VARCHAR(10) NULL,
 	tipo1 varchar(2) NULL,
@@ -13,9 +13,6 @@ CREATE TABLE IF NOT EXISTS dados.msc (
 	ic6 VARCHAR(10) NULL,
 	tipo6 varchar(2) NULL,
 	valor REAL NULL,
-	tipo_valor char NULL,
-	natureza_valor varchar(50) NULL
-)
-ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_0900_ai_ci;
+	tipo_valor varchar(25) NULL,
+	natureza_valor char NULL
+);

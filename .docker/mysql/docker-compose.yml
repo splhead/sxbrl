@@ -6,5 +6,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=$3nh4F0rt3
       - MYSQL_DATABASE=db
+    ports:
+      - 3306:3306
     volumes:
       - ./data:/var/lib/mysql
